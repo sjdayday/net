@@ -10,11 +10,12 @@ sleep_some <- function(num,x)
 parallel_sleep <- function(t)
 {
     cl <- makeCluster(type="SOCK", c("localhost","localhost"))
-    print("cluster: ")
-    print(cl)
+    #print("cluster: ")
+    #print(cl)
     clusterApply(cl,c(1,2),sleep_some,t)
 }
 test_that("Slave processes are visible sleeping; uncomment to run",
 {
-  #parallel_sleep(30)
+    #parallel_sleep(30)
+    #no expects done; don't know how to verify the slaves exist other than ps -ax
 })

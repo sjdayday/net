@@ -4,3 +4,7 @@ library(stringr)
 library(plyr)
 library(evaluate)
 library(digest)
+tests <- function()
+{
+  suppressPackageStartupMessages(test_dir("."))
+}

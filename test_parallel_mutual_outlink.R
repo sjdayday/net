@@ -1,25 +1,20 @@
 context("Parallel mutual outlink")  # Identify the set of tests
 
-#source("parallel_mutual_outlink.R")  # pull in pre-requisite source code (R pgmming ch 16, loc 9829)
-source("test_mutual_outlink.R")  # pull in pre-requisite source code 
+source("parallel_mutual_outlink.R")  # pull in pre-requisite source code (R pgmming ch 16, loc 9829)
+source("test_mutual_outlink.R")  # build test matrix
 require(snow)
 
-sleep_some <- function(num,x)
+build_cluster <- function(host_processes)
 {
-    # output not printed from slave processes 
-    Sys.sleep(x)
-}
-cluster <- function(hosts, processes_per_host)
-{
-    cl <- makeCluster(type="SOCK", c("localhost","localhost"))
-    print("cluster: ")
-    print(cl)
-    clusterApply(cl,c(1,2),sleep_some,30)
+    cl <- makeCluster(type="SOCK", host_processes)
+    #print("cluster: ")
+    #print(cl)
 }
 test_that("Calculates mutual outlinks using two local hosts",
 {
- #cluster(c(1), 2)
- #test_m <- build_test_matrix() # build the input matrixd
-
- #expect_that(4,equals(mtl(c(1,2,3),test_m)))  # compare each of 1st 3 rows to remaining rows of the input matrix.
+  
+  test_m <- build_test_matrix() # build the input matrix
+  cluster <- build_cluster(c("localhost","localhost"))
+  #print((mutlinks(cluster,test_m)))  # mean should be two thirds of the links are mutual
+  expect_that((4/6),equals(mutlinks(cluster,test_m)))  # mean should be two thirds of the links are mutual
 })
