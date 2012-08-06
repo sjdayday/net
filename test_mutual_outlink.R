@@ -19,4 +19,5 @@ test_that("Calculates number of mutual outlinks from each of first 3 rows of adj
  expect_that(0,equals(mtl(c(2),test_m)))  # compare each of 1st 3 rows to remaining rows of the input matrix.
  expect_that(1,equals(mtl(c(3),test_m)))  # compare each of 1st 3 rows to remaining rows of the input matrix.
  expect_that(4,equals(mtl(c(1,2,3),test_m)))  # compare each of 1st 3 rows to remaining rows of the input matrix.
+ expect_error(mtl(c(4),test_m),"subscript out of bounds")  #  
 })
