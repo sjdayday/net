@@ -15,13 +15,15 @@ t1<-matrix(nrow=8,ncol=8,seq(0,0,length=64))
  vertex.disjoint.paths(toy,0,3) # nips test
  ALL EFFORTS BELOW HAVE THIS ERROR
  Error in vertex.disjoint.paths(toy, i, j) : 
-  At flow.c:2086 : The source==target case is not implemented, Unimplemented function call
+  At flow.c:2086 : The source==target case is not implemented, Unimplemented function call #DUE TO adjacent pairs *should = 1)
 #TOLGA'S TRY
 a<-rep(0,64)
 a<-matrix(a,nrow=8,ncol=8)
 for(i in 1:8){
  for (j in 1:8){
-	a[i,j]<-vertex.disjoint.paths(toy,i-1,j-1)
+   if (a[i,j]==1) a[i,j]<-1 else # Fix this line
+   #or vectorized ifelse
+	a[i,j]<-vertex.disjoint.paths(toy,i-1,j-1) #end else
 }
 }
 #TOLGA'S TRY 2
