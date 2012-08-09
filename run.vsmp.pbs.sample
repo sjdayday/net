@@ -1,0 +1,73 @@
+#!/bin/sh
+#PBS -q vsmp
+#PBS -N R_job1 
+#PBS -l nodes=1:ppn=256:vsmp
+#PBS -l walltime=0:30:00
+#PBS -o R1_vsmp.out
+#PBS -e R1_vsmp.err
+#PBS -V
+#PBS -M username@xyz123.edu
+#PBS -m abe
+#PBS -A gue998
+cd ~/SI12_basics/R/R/base
+ncpus=`grep -wc processor /proc/cpuinfo`
+nboards=`vsmpversion --boards`
+[ "_$nboards" = "_" ] && nboards=1
+cpusperboard=$((ncpus / nboards))
+cmd=R
+
+bindR() {
+        if [ $# -ne 1 ]; then
+                echo "usage: $0 <nproc>"
+                exit 1
+        fi
+
+        count=0
+        # Wait for R to start.
+        while [ $count -lt $1 ]; do
+           sleep 2
+           count=`ps -eH|grep -w $cmd|grep -v grep|awk '{print $1}'| wc -l`
+        done
+
+        rid=`ps -eH|grep $cmd|grep -v grep|awk '{print $1}'`
+
+        master=0
+        num=0
+        for n in $rid; do
+                # Bind master thread to first board.
+                if [ $master -eq 0 ]; then
+                        taskset -pc 0-$((cpusperboard-1)) $n >/dev/null
+                        master=1
+                        continue
+                fi
+                # Bind worker threads to consecutive cores.
+                taskset -pc $num $n >/dev/null
+                num=$((num + 1))
+        done
+}
+ulimit -s unlimited
+
+BASE=$PWD
+tag=`date +%s`
+
+export PATH=/opt/R/bin:$PATH
+export TMPDIR=/ramfs
+export MALLOC_TOP_PAD_=4294967296
+export MALLOC_TRIM_THRESHOLD_=-1
+export MALLOC_MMAP_MAX_=0
+
+OUTDIR=/home/diag/SI12_basics/R/R/base/Results/R/`date +%m-%d-%H-%M`
+mkdir -p $OUTDIR
+
+INPUT=base.R
+
+for NPROC in 64 32 16; do
+# for NPROC in 128 64 32 16 ; do
+        bindR $NPROC &
+
+        sed -e "s/^nWorkers =.*/nWorkers = $NPROC/g" -i $INPUT
+        echo $MASK R -f $INPUT $NPROC
+        /usr/bin/time $MASK R -f $INPUT > $OUTDIR/log-$NPROC-$tag.txt 2>&1
+done
+
+
