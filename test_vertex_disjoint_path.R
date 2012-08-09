@@ -22,4 +22,12 @@ test_that("Disjoint paths calculated correctly",
   vertices <- c("a","b")  # should fail; must be numeric
   expect_that(-95,equals(vertex_disjoint_paths(vertices,g)))
 })
+
+test_that("Disjoint paths calculated correctly",
+{
+  g <- graph.adjacency(n1)   # n1 from sample_net.R 
+  lv <- list(c(1,2), c(2,3), c(4,5), c(5,6), c(6,7))
+#  expect_that(3,equals(vertex_list_disjoint_paths(lv,g)))
+#  vertices <- c(3,2)  # should fail; target must be greater than source
+}
   #out <- lapply(L, vertex_disjoint_paths, graph)
