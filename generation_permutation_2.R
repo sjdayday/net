@@ -3,7 +3,8 @@
 library(sna)
 library(network)
 ##source the toy example:
-source("PajekR-KinSimGF.R")  # SJD removed "net=", as net is never referenced. converted http link to local file to remove network dependency
+#source("PajekR-KinSimGF.R")  # SJD removed "net=", as net is never referenced. converted http link to local file to remove network dependency
+source("PajekR-KinSimGF_without_cats.R")  # SJD all cats commented out to make tests less cluttered 
 
 generation.permutation <- function(matrix,generation,location, lineage="MALEANDFEMALE"){
  gen <- max(generation) #number of generation in the network
