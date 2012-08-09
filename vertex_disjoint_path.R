@@ -1,7 +1,7 @@
 # Calculate vertex disjoint paths from graph and 2 element vector of vertices
 
 require(igraph)
-options(cores = 2)  # update as appropriate; benchmarking suggested
+options(cores = 16) # update as appropriate; benchmarking suggested
 
 build_list <- function(c, verts)
 {
