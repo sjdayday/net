@@ -5,5 +5,6 @@ path.matrix<-function(path.list,n){
     pmcol<- unlist(path.list[[i]][2])[2]
     pmatrix[pmrow,pmcol]<-unlist(path.list[[i]][1])
   }
+  pmatrix<- pmatrix+t(pmatrix)
   return(pmatrix)
 }
