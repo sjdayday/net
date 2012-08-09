@@ -7,8 +7,6 @@ build_list <- function(c, verts)
   list(count=c, vertices=verts)
 }
 
-
-
 vertex_disjoint_paths <- function(vertices, graph)
 {
   source <- vertices[1]

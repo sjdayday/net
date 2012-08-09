@@ -3,7 +3,6 @@ context("Vertex disjoint paths")  # Identify the set of tests
 source("vertex_disjoint_path.R")
 source("sample_net.R")
 #require(multicore)
-#require(doMC)
 
 test_that("Disjoint paths calculated correctly",
 {
@@ -23,12 +22,12 @@ test_that("Disjoint paths calculated correctly",
   expect_that(-95,equals(vertex_disjoint_paths(vertices,g)[[1]]))
 })
 
-test_that("Disjoint paths calculated correctly",
+test_that("Path count list returned from vertex list",
 {
   g <- graph.adjacency(n1)   # n1 from sample_net.R 
-  lv <- list(c(1,2), c(2,3), c(4,5), c(5,6), c(6,7))
+  lv <- list(c(1,2), c(4,3), c(4,5), c(5,6), c(6,7))
   path_list <- vertex_disjoint_path_list(lv,g)
   expect_that(3,equals(path_list[[1]][[1]])) # disjoint path count...
   expect_that(c(1,2),equals(path_list[[1]][[2]])) # for vertices(1,2)
-#  vertices <- c(3,2)  # should fail; target must be greater than source
+  expect_that(-99,equals(path_list[[2]][[1]])) # error returned for second vertex pair
 })
