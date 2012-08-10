@@ -1,5 +1,5 @@
 # Calculate vertex disjoint paths from graph and 2 element vector of vertices
-
+require(multicore)
 require(igraph)
 options(cores = 16) # update as appropriate; benchmarking suggested
 
@@ -22,5 +22,5 @@ vertex_disjoint_paths <- function(vertices, graph)
 }
 vertex_disjoint_path_list <- function(vertex_list, graph)
 {
-  mclapply(vertex_list, vertex_disjoint_paths, graph)
+  mclapply(vertex_list, vertex_disjoint_paths, graph,mc.cores = getOption("cores"))
 }
