@@ -37,7 +37,7 @@ vertex.indep <- function(adj.mat,v1,v2){     ###V2 MUST BE GREATER THAN V1!!!!!!
 }
 
 ##in igraph this function is inbuilt which does the exact same thing.
-vertex.disjoint.paths(toy,0,3)
+#vertex.disjoint.paths(toy,0,3)
 
 
 
