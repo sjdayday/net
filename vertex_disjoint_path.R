@@ -1,7 +1,7 @@
 # Calculate vertex disjoint paths from graph and 2 element vector of vertices
 require(multicore)
 require(igraph)
-options(cores = 16) # update as appropriate; benchmarking suggested
+#options(cores = 16) # commented; this should be set at the benchmark level to enable it to be overridden easily by the run script
 
 build_list <- function(c, verts)
 {
@@ -10,6 +10,10 @@ build_list <- function(c, verts)
 
 vertex_disjoint_paths <- function(vertices, graph)
 {
+  # if logs become too verbose, comment out the next 3 lines
+  #print("before calculating disjoint paths for vertices: ")
+  #print(vertices)
+  #timestamp()
   source <- vertices[1]
   target <- vertices[2]
   num_vertices <- length(V(graph))

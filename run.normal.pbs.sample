@@ -9,7 +9,9 @@
 #PBS -M stevedoubleday@gmail.com
 #PBS -m abe
 #PBS -A gue998
-cd /home/train22/R/out
+. /etc/profile.d/modules.sh
+module load gnu/4.6.1
+cd /home/$USER/R/net
 cmd=R
 
 ulimit -s unlimited
@@ -19,15 +21,18 @@ tag=`date +%s`
 
 export PATH=/opt/R/bin:$PATH
 export TMPDIR=/scratch/$USER/$PBS_JOBID
-export R_LIBS=/home/train22/lib/R
-OUTDIR=/home/train22/R/out
+export R_LIBS=/home/$USER/RLibrary
+OUTDIR=/home/$USER/R/out
 
-INPUT=base.R
+INPUT=benchmark_1.R
+#INPUT=test_multicore2.R
+#INPUT=test_multicore.R
+#INPUT=test_benchmark2.R
 
 for NPROC in 16 8  4; do
 # for NPROC in 128 64 32 16 ; do
 
-        sed -e "s/^nWorkers =.*/nWorkers = $NPROC/g" -i $INPUT
+        sed -e "s/^options(cores=.*/options(cores= $NPROC)/g" -i $INPUT
         echo R -f $INPUT $NPROC
         /usr/bin/time $MASK R -f $INPUT > $OUTDIR/log-$NPROC-$tag.txt 2>&1
 done
