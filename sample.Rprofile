@@ -1,4 +1,4 @@
-setwd("/Users/stevedoubleday/R/net")
+setwd("~/R/net")
 options(editor="/usr/bin/vim")
-.libPaths("/Users/stevedoubleday/Library/R")
+.libPaths("~/RLibrary")
 source("TestSetup.R")
