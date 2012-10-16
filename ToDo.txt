@@ -1,0 +1,5 @@
+fix test_vertex.indep.r
+read pajek file as a network
+verify matrix.csv is getting written
+read nord2.net, calculate benchmark
+where / how to store files for immediate use, rather than re-formatting them.
