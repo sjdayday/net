@@ -1,5 +1,13 @@
 fix test_vertex.indep.r
-read pajek file as a network
-verify matrix.csv is getting written
-read nord2.net, calculate benchmark
-where / how to store files for immediate use, rather than re-formatting them.
+*read pajek file as a network:  netScienceCoaut.R zacharyKarateClubNet.R
+**g3 <- read.graph(file="http://intersci.ss.uci.edu/wiki/pdf/0SDSC/edges_caclean2.net", format="pajek")
+
+Data sources:  
+Doug:  10/1
+http://intersci.ss.uci.edu/wiki/pdf/0SDSC/NORD2.net
+
+Perhaps this is the second dataset?
+http://intersci.ss.uci.edu/wiki/pdf/0SDSC/edges_caclean2.net
+
+Next: 
+run:  run.normal.pbs.NORD2 with vertex_disjoint_paths_NORD2.R, output matrix_NORD2.csv

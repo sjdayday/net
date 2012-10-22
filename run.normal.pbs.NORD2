@@ -1,0 +1,43 @@
+#!/bin/sh
+#PBS -q normal
+#PBS -N R_job1 
+#PBS -l nodes=1:ppn=256:native
+#PBS -l walltime=4:00:00
+#PBS -o R1_native.out
+#PBS -e R1_native.err
+#PBS -V
+#PBS -M stevedoubleday@gmail.com
+#PBS -m abe
+#PBS -A TG-DMS120027
+
+# SJD:  set up as a guess to run NORD2.net:  256 processors, four hours:  approx 1000 SU's
+#   modified:  account, NPROC, INPUT.
+
+. /etc/profile.d/modules.sh
+module load gnu/4.6.1
+cd /home/$USER/R/net
+cmd=R
+
+ulimit -s unlimited
+
+BASE=$PWD
+tag=`date +%s`
+
+export PATH=/opt/R/bin:$PATH
+export TMPDIR=/scratch/$USER/$PBS_JOBID
+export R_LIBS=/home/$USER/RLibrary
+OUTDIR=/home/$USER/R/out
+
+INPUT=vertex_disjoint_paths_NORD2.R
+#INPUT=test_multicore2.R
+#INPUT=test_multicore.R
+#INPUT=test_benchmark2.R
+
+for NPROC in 256; do
+# for NPROC in 128 64 32 16 ; do
+
+        sed -e "s/^options(cores=.*/options(cores= $NPROC)/g" -i $INPUT
+        echo R -f $INPUT $NPROC
+        /usr/bin/time $MASK R -f $INPUT > $OUTDIR/log-$NPROC-$tag.txt 2>&1
+done
+
