@@ -16,6 +16,14 @@ vertex_disjoint_paths <- function(vertices, graph)
   #timestamp()
   source <- vertices[1]
   target <- vertices[2]
+  if ((source %% 500 == 0) && (target %% 500 == 0))
+  {
+     timestamp()
+     print("source: ")
+     print(source)
+     print("target: ")
+     print(target)
+  }
   num_vertices <- length(V(graph))
   if (mode(vertices) != "numeric") { return(build_list(-95,vertices)) }  
   if (target < source) {  return(build_list(-99,vertices)) }
