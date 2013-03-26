@@ -36,3 +36,13 @@ vertex_disjoint_path_list <- function(vertex_list, graph)
 {
   mclapply(vertex_list, vertex_disjoint_paths, graph,mc.cores = getOption("cores"))
 }
+write_path_list_to_file <- function(vertex_path_list, filename)
+{
+  len <- length(vertex_path_list)
+  for(i in 1:len)
+  {
+    cat(file=filename, sep="\t", append=TRUE, unlist(vertex_path_list[[i]]), "\n")
+  }
+  len
+}
+

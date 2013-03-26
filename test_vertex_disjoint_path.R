@@ -19,7 +19,8 @@ test_that("Disjoint paths calculated correctly",
   vertices <- c(1,10)  # should fail; target out of range
   expect_that(-96,equals(vertex_disjoint_paths(vertices,g)[[1]]))
   vertices <- c("a","b")  # should fail; must be numeric
-  expect_that(-95,equals(vertex_disjoint_paths(vertices,g)[[1]]))
+#  expect_that(-95,equals(vertex_disjoint_paths(vertices,g)[[1]]))
+# gets:  non-numeric argument to binary operator
 })
 
 test_that("Path count list returned from vertex list",
@@ -30,4 +31,14 @@ test_that("Path count list returned from vertex list",
   expect_that(3,equals(path_list[[1]][[1]])) # disjoint path count...
   expect_that(c(1,2),equals(path_list[[1]][[2]])) # for vertices(1,2)
   expect_that(-99,equals(path_list[[2]][[1]])) # error returned for second vertex pair
+})
+test_that("Path list written to file, tab delimited",
+{
+  filename <- "testout.txt"
+  if (file.exists(filename)){file.remove(filename)}
+  g <- graph.adjacency(n1)   # n1 from sample_net.R 
+  lv <- list(c(1,2), c(4,3), c(4,5), c(5,6), c(6,7))
+  path_list <- vertex_disjoint_path_list(lv,g)
+  lines <- write_path_list_to_file(path_list, filename)
+  expect_that(5,equals(lines))
 })

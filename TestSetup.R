@@ -5,6 +5,7 @@ library(plyr)
 library(evaluate)
 library(digest)
 library(miscTools)
+library(animation)
 tests <- function()
 {
   suppressPackageStartupMessages(test_dir("."))
