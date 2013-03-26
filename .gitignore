@@ -2,3 +2,4 @@
 .DS*
 *csv
 testout.txt
+path*.txt

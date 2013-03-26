@@ -85,10 +85,4 @@ test_that("Core dispatch list built",
   expect_that(c(6,15,8,1),equals(dispatch_list[[2]]))
 #  mclapply(vertex_list, vertex_disjoint_paths, graph,mc.cores = getOption("cores"))
 })
-test_that("Vertex list built across multiple cores",
-{
-  options(cores = 2)
-  N = 6
-#  mclapply(vertex_list, vertex_disjoint_paths, graph,mc.cores = getOption("cores"))
-})
 

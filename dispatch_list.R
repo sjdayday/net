@@ -78,11 +78,11 @@ build_core_dispatch_list <- function(last_node)
   }
   dispatch_list
 }
-vertex_disjoint_path_list_by_core <- function(core_dispatch_list,graph)
+vertex_disjoint_path_list_by_core <- function(core_dispatch_list,graph,filename)
 {
-   mclapply(core_dispatch_list, vertex_disjoint_paths_by_core, graph,mc.cores = getOption("cores"))
+   mclapply(core_dispatch_list, vertex_disjoint_paths_by_core, graph,filename,mc.cores = getOption("cores"))
 }
-vertex_disjoint_paths_by_core <- function(dispatch_entry,graph)
+vertex_disjoint_paths_by_core <- function(dispatch_entry,graph,filename)
 {
   last_node <- dispatch_entry[1]
   total <- dispatch_entry[2]
@@ -90,7 +90,15 @@ vertex_disjoint_paths_by_core <- function(dispatch_entry,graph)
   core_number <- dispatch_entry[4]
   start_node <- offset_to_starting_pair(last_node, total, chunk, core_number)
   vertex_list <- vertex_list_from_starting_pair(last_node, chunk, start_node)
-  lapply(vertex_list, vertex_disjoint_paths, graph)  
+  pl <- lapply(vertex_list, vertex_disjoint_paths, graph)  
+  name <- paste(filename,core_number,".txt",sep="")
+  if (file.exists(name)){file.remove(name)}
+  lines <- write_path_list_to_file(pl, name)
+  print("file written: ")
+  print(name)
+  print(" #lines: ")
+  print(lines)
+  lines
 }
 format_path_list_to_single_level <- function(path_list)
 {
